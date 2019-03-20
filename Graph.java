@@ -25,24 +25,27 @@ public class Graph {
 
         List<Node> nonMarques = new ArrayList<>();
         List<Integer> poidsNonMarque = new ArrayList<>();
-        for (int i = 0; i < noeuds.size(); i++) {
-            nonMarques.add(noeuds.get(i));
-            poidsNonMarque.add(-1);
-        }
 
-        int[] lDistance = new int[noeuds.size()];
-
+        for (int i = 0; i < matriceDistance.length ; i++) {
+            int[] lDistance = new int[noeuds.size()];
             for (int j = 0; j < noeuds.size(); j++) {
                 lDistance[j] = -1;
             }
-            matriceDistance[0] = parcoursDesVoisins(noeuds.get(0), nonMarques, lDistance, 0);
-
-//        for (int i = 0; i < noeuds.size(); i++) {
-//            System.out.println();
-//            for (int j = 0; j < noeuds.size(); j++) {
-//                System.out.print(matriceDistance[i][j] + " ");
-//            }
-//        }
+            for (int j = 0; j < noeuds.size(); j++) {
+                nonMarques.add(noeuds.get(j));
+                poidsNonMarque.add(-1);
+            }
+            matriceDistance[i] = parcoursDesVoisins(noeuds.get(i), nonMarques, lDistance, i);
+        }
+        for (int i = 0; i < noeuds.size(); i++) {
+            System.out.println();
+            for (int j = 0; j < noeuds.size(); j++) {
+                System.out.print(matriceDistance[i][j] + " ");
+                if (matriceDistance[i][j] < 10){
+                    System.out.print(" ");
+                }
+            }
+        }
     }
 
     public int[] parcoursDesVoisins(Node noeudDepart, List<Node> nonMarques, int[] lDistance, int indiceOriginel) {
@@ -71,10 +74,6 @@ public class Graph {
         }
          //si tout les noeuds sont marqués
         if (nonMarques.isEmpty()){
-            for (int i = 0; i < lDistance.length; i++) {
-                System.out.print(lDistance[i] + " ");
-            }
-            System.out.println();
             return lDistance;
         }
 
@@ -106,7 +105,6 @@ public class Graph {
         }
         return -1;
     }
-
 
     public boolean isConnexe() {
         List<Node> noeudsVisites = new ArrayList<>();
