@@ -94,6 +94,45 @@ public class Graph {
         return parcoursDesVoisins(noeudDepart, nonMarques, lDistance, indiceOriginel);
     }
 
+    public void voyageurDeCommerce(){
+        ArrayList<ArrayList<Node>> toutLesVoyageur = new ArrayList<>();
+
+        for (int i = 0; i < noeuds.size(); i++) {
+            toutLesVoyageur.add(parcoursNoeuds(noeuds.get(i), new ArrayList<Node>()));
+        }
+
+        for (int i = 0; i < noeuds.size(); i++) {
+            System.out.println();
+            for (int j = 0; j < noeuds.size(); j++) {
+                System.out.print(toutLesVoyageur.get(i).get(j).getNom() + "  ");
+            }
+        }
+    }
+
+    public ArrayList<Node> parcoursNoeuds(Node noeudDepart, ArrayList<Node> noeudsParcourus){
+        noeudsParcourus.add(noeudDepart);
+        int distance = -1;
+        Node noeudLePlusProche =new Node("temp");
+        for (int i = 0; i < noeudDepart.getBrother().size(); i++) {
+            Node n = noeudDepart.getBrother().get(i);
+            for (int j = 0; j < arretes.size(); j++) {
+                if (arretes.get(j).getNoeudDepart() == noeudDepart && arretes.get(j).getNoeudArrivee() == n ||
+                        arretes.get(j).getNoeudDepart() == n && arretes.get(j).getNoeudArrivee() == noeudDepart) {
+                    int tempdistance = arretes.get(j).getDistance();
+                    if ((distance == -1 || tempdistance < distance) && !noeudsParcourus.contains(n)){
+                        distance = tempdistance;
+                        noeudLePlusProche = n;
+                    }
+                }
+            }
+        }
+        noeudDepart = noeudLePlusProche;
+        if (noeudsParcourus.size()==noeuds.size()){
+            return noeudsParcourus;
+        }
+        return parcoursNoeuds(noeudDepart, noeudsParcourus);
+    }
+
     public int addArrete(Node noeud1, Node noeud2, int distance) {
         if (noeuds.contains(noeud1) && noeuds.contains(noeud2)) {
             if (!arretes.contains(new Edges(noeud1, noeud2, distance))) {
@@ -120,6 +159,19 @@ public class Graph {
             }
         }
         return noeudsVisites;
+    }
+
+    public boolean isComplet() {
+        for (int i = 0; i < noeuds.size(); i++) {
+            for (int j = 0; j < noeuds.size(); j++) {
+                if (!noeuds.get(i).getBrother().contains(noeuds.get(j))){
+                    if (i != j){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     public List<Node> getNoeuds() {

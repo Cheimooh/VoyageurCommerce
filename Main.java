@@ -27,8 +27,35 @@ public class Main {
         gConnexe.addArrete(E, F, 40);
         gConnexe.addArrete(F, G, 8);
 
-        System.out.println(gConnexe.isConnexe());
+        System.out.println("graphe connexe :" + gConnexe.isConnexe());
 
+        System.out.println("matrice distance :");
         gConnexe.initMatriceDistance();
+        System.out.println();
+
+        Graph gComplet = new Graph();
+        gComplet.addNoeud(A);
+        gComplet.addNoeud(B);
+        gComplet.addNoeud(C);
+        gComplet.addNoeud(D);
+        gComplet.addNoeud(E);
+
+        gComplet.addArrete(A, B, 1);
+        gComplet.addArrete(A, C, 2);
+        gComplet.addArrete(A, D, 3);
+        gComplet.addArrete(A, E, 4);
+        gComplet.addArrete(B, C, 5);
+        gComplet.addArrete(B, D, 6);
+        gComplet.addArrete(B, E, 7);
+        gComplet.addArrete(C, D, 8);
+        gComplet.addArrete(C, E, 9);
+        gComplet.addArrete(D, E, 10);
+
+        System.out.println();
+        System.out.println("graphe complet :" + gComplet.isComplet());
+
+        System.out.println("chemin le plus court :");
+
+        gComplet.voyageurDeCommerce();
     }
 }
